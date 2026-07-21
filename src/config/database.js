@@ -20,7 +20,7 @@ export const db = getFirestore(app);
 const connectDB = async () => {
     try {
         if (app.name) {
-            console.log("\n🔥 Firebase connected! \nHost: ${firebaseConfig.projectId}.firebaseapp.com");
+            console.log(`\n🔥 Firebase connected! \nHost: ${firebaseConfig.projectId}.firebaseapp.com`);
         }
     } catch (error) {
         console.log("❌ Firebase connection failed.", error);

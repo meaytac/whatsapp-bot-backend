@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-bot-backend",
+  "version": "1.0.0",
+  "description": "An automated WhatsApp bot backend",
+  "homepage": "https://github.com/meaytac/whatsapp-bot-backend#readme",
+  "bugs": {
+    "url": "https://github.com/meaytac/whatsapp-bot-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meaytac/whatsapp-bot-backend.git"
+  },
+  "license": "(ISC)",
+  "author": "Eren",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

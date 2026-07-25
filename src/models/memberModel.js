@@ -1,5 +1,5 @@
 import { addDoc, collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
-import { db } from "../config/database";
+import { db } from "../config/database.js";
 
 const MEMBER_COLLECTION = "members";
 
@@ -21,7 +21,7 @@ export const createMember = async (memberData) => {
         weight: memberData.weight || null,
         height: memberData.height || null,
         emergencyContact: memberData.emergencyContact || { name: "", phone: "" },
-        isActive: memberData.isActive || true,
+        isActive: memberData.isActive ?? true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         createdBy: memberData.createdBy || "SYSTEM"

@@ -63,7 +63,9 @@ const getMembershipStatusMessage = async (phoneNumber) => {
 
 
 const client = new Client({
-    authStrategy: new LocalAuth()
+    authStrategy: new LocalAuth({
+        clientId: "gym-bot"
+    })
 });
 
 client.on("qr", (qr) => {

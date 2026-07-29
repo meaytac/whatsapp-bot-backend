@@ -12,7 +12,7 @@ import { db } from "../config/database.js";
 
 const MEMBER_COLLECTION = "members";
 
-const normalizedPhoneNumber = (phoneNumber = "") => {
+const normalizePhoneNumber = (phoneNumber = "") => {
     const digits = phoneNumber.replace(/\D/g, "");
 
     if (!digits) {
@@ -35,6 +35,7 @@ const mapMemberForBot = (docSnapshot) => {
 
     return {
         id: docSnapshot.id,
+        uid: data.uid || "",
         firstName: data.firstName || "",
         lastName: data.lastName || "",
         fullName: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
@@ -42,14 +43,16 @@ const mapMemberForBot = (docSnapshot) => {
         role: data.role || "MEMBER",
         isActive: data.isActive ?? false,
         subscriptionStatus: data.subscriptionStatus || "UNKNOWN",
-        totalCheckIns: data.totalCheckIns || 0
+        totalCheckIns: data.totalCheckIns || 0,
+        endDate: data.endDate || data.subscriptionEndDate || data.membershipEndDate || null,
+        packageName: data.packageName || ""
     };
 };
 
 
 export const createMember = async (memberData) => {
     const memberRef = collection(db, MEMBER_COLLECTION);
-    const formattedPhone = normalizedPhoneNumber(memberData.phoneNumber);
+    const formattedPhone = normalizePhoneNumber(memberData.phoneNumber);
 
     const newMember = {
         uid: memberData.uid || "",
@@ -57,10 +60,12 @@ export const createMember = async (memberData) => {
         role: "MEMBER",
         firstName: memberData.firstName || "",
         lastName: memberData.lastName || "",
-        phoneNumber: normalizedPhoneNumber,
+        phoneNumber: formattedPhone,
         isActive: memberData.isActive ?? true,
         subscriptionStatus: memberData.subscriptionStatus || "ACTIVE",
         totalCheckIns: memberData.totalCheckIns || 0,
+        endDate: memberData.endDate || memberData.subscriptionEndDate || null,
+        packageName: memberData.packageName || "",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         createdBy: memberData.createdBy || "SYSTEM"
@@ -75,7 +80,7 @@ export const createMember = async (memberData) => {
 };
 
 export const getMemberByPhoneNumber = async (phoneNumber) => {
-    const formattedPhone = normalizedPhoneNumber(phoneNumber);
+    const formattedPhone = normalizePhoneNumber(phoneNumber);
     const memberRef = collection(db, MEMBER_COLLECTION);
 
     const memberQuery = query(
